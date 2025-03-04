@@ -32,12 +32,18 @@ class Agent2:
             action = self.action_space[action_prob.index(max(action_prob))]
             return action
         
-        
+    
+    def feedback_batch(self, state, action, r, memory):
+        if memory == 1:
+            self.memory1[-1].append((state, action, r))
+        else:
+            self.memory2[-1].append((state, action, r))
+
     def feedback(self, state, action, r, memory):
         if memory == 1:
-            self.memory1.append([state, action, r])
+            self.memory1.append([(state, action, r)])
         else:
-            self.memory2.append([state, action, r])
+            self.memory2.append([(state, action, r)])
 
     
     def eval(self):
@@ -46,7 +52,7 @@ class Agent2:
         gamma = 0.9
 
         for m in self.memory1[::-1]:
-            s, a, r = m
+            s, a, r = m[0]
             vn = max(self.vct[s], 1)  # 当前状态的访问次数
             qn = max(self.qct[(s,a)], 1)  # 当前状态的访问次数
 
@@ -75,7 +81,7 @@ class Agent2:
         gamma = 0.9
 
         for m in self.memory2[::-1]:
-            s, a, r = m
+            s, a, r = m[0]
             vn = max(self.vct[s], 1)  # 当前状态的访问次数
             qn = max(self.qct[(s,a)], 1)  # 当前状态的访问次数
 

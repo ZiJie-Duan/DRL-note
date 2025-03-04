@@ -35,7 +35,7 @@ class RFL2:
         while True:
 
             while True:
-                a = self.a1.run(s, mod = "real")
+                a = self.a1.run(s)
                 s, a, r, sd ,end = self.game.x_move(a)
                 #self.game.pprint(s,a,r,sd,end)
                 if s != sd:
@@ -71,7 +71,7 @@ class RFL2:
 
     def run_sim(self):
         for i in range(self.round):
-            if i % 200 == 0:
+            if i % 2000 == 0:
                 print(i)
             if i > self.round - 100:
                 self.run_step(v = True)
@@ -141,8 +141,8 @@ class RFL2:
         print(f"{a1c}:{bc}:{a2c}")
         return (a1c, bc, a2c)
 
-el = []  
-for i in range(1):
+el = []
+for i in range(3):
     rfl = RFL2(100000)
     rfl.run_sim()
     el.append(rfl.run_eval(1000))

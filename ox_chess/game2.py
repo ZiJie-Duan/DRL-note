@@ -91,8 +91,8 @@ class OXGame2:
             else:
                 raise TypeError("Logic Error")
         
-        if pre_win_state:
-            r = -1.5     
+        # if pre_win_state:
+        #     r = -1.5     
         
         return [s,a,r,sd,end]
     

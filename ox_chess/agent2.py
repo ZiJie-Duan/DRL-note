@@ -16,11 +16,30 @@ class Agent2:
         self.memory2 = []
 
     def e_greedy(self,state):
-        action_reward = [self.q[(state, ac)] for ac in self.action_space]
+        valid_action_num = 0
+        valid_action_space_index = []
+        for i, v in enumerate(state):
+            if v == "0":
+                valid_action_space_index.append(i)
+                valid_action_num += 1
+
+        action_reward = [self.q[(state, ac)] if i in valid_action_space_index else -999 for i, ac in enumerate(self.action_space)]
         best_action = action_reward.index(max(action_reward))
 
-        self.pi[state] = [0.088888 for _ in range(9)]
-        self.pi[state][best_action] += 0.2
+        self.pi[state] = [0 for _ in range(9)]
+
+        if valid_action_num == 1:
+            self.pi[state][valid_action_space_index[0]] = 1
+        elif valid_action_num != 0:
+            ad_p = self.e_greedy_v / (valid_action_num - 1)
+
+            for i in valid_action_space_index:
+                self.pi[state][i] = ad_p
+            
+            self.pi[state][best_action] = 1  - self.e_greedy_v
+        else:
+            raise TypeError("Logic Error")
+
 
 
     def run(self, state, mod="t"):
@@ -29,6 +48,8 @@ class Agent2:
             action = random.choices(self.action_space, weights=action_prob)[0]
             return action
         else:
+            # if the action is not correct and the probability also not good enought
+            # that will make the Agent Trap in the error.
             action = self.action_space[action_prob.index(max(action_prob))]
             return action
         

@@ -94,7 +94,7 @@ class RFL2:
         while True:
 
             while True:
-                a = a1.run(s, mod = "read")
+                a = a1.run(s)
                 s, a, r, sd ,end = self.game.x_move(a)
                 if s != sd:
                     #self.game.pprint(s,a,r,sd,end)
@@ -141,14 +141,51 @@ class RFL2:
         print(f"{a1c}:{bc}:{a2c}")
         return (a1c, bc, a2c)
 
+rfl = None
 el = []
 for i in range(3):
-    rfl = RFL2(100000)
+    rfl = RFL2(500000)
     rfl.run_sim()
     el.append(rfl.run_eval(1000))
+    # ac_num = 0 
+    # for v in rfl.a1.q.values():
+    #     if v != 
 
-print(f"Report: {sum([e[0] for e in el])/3} : {sum([e[1] for e in el])/3} : {sum([e[2] for e in el])/3}")
+print(f"Report: {sum([e[0] for e in el])/30:.2f}% : {sum([e[1] for e in el])/30:.2f}% : {sum([e[2] for e in el])/30:.2f}%")
 
+while True:
+    rfl.game.init_game()
+    while True:
+        user_input = input("请输入您的动作（1-9），或输入'q'结束：")
+        if user_input.lower() == 'q':
+            print("游戏结束！")
+            break
+
+        try:
+            action = int(user_input)
+            if action not in range(1, 10):
+                raise ValueError("动作必须在1到9之间。")
+        except ValueError as e:
+            print(e)
+            continue
+
+        s,a,r,sd,end = rfl.game.x_move(action)
+        if end:
+            print("游戏结束！")
+            break
+        
+        while True:
+            a1_action = rfl.a1.run(rfl.inv_state(s))
+            s,a,r,sd,end = rfl.game.o_move(a1_action)
+            if s != sd:
+                break
+        if end:
+            print("游戏结束！")
+            break
+
+        rfl.game.pprint(s, a, r, sd, end)
+    
+    rfl.game.pprint(s, a, r, sd, end)
 
 
 # rfl.game.init_game()

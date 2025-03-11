@@ -1,0 +1,26 @@
+
+a = 1/n * (x1 + x2 ... + xn)
+
+b = 1/q * (y1 + y2 ... + yq)
+
+
+
+c = 1/(n+q) * (x1 + .... + xn + y1 +.... + yq)
+c = 1/(n+q) * (x1 ... xn) + 1/(n+q) * (y1 ... yq)
+
+let consider 1/(n+q) * (x1 ... xn) 
+ = 1/n * n/(n+q) * (x1 ... xn) 
+ = 1/n * (x1 ... xn) * n/(n+q)
+ = a * n/(n+q) 
+
+let consider 1/(n+q) * (y1 ... yq) 
+ = 1/q * q/(n+q) * (y1 ... yq) 
+ = 1/q * (y1 ... yq) * q/(n+q)
+ = b * q/(n+q) 
+
+thus 
+c = a * n/(n+q) + b * q/(n+q)
+
+
+a = 1/n * (x1 + x2 + .... xn)
+

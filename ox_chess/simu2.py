@@ -141,15 +141,17 @@ class RFL2:
         print(f"{a1c}:{bc}:{a2c}")
         return (a1c, bc, a2c)
 
-rfl = None
+
+# Initialize an empty list to store evaluation results
 el = []
-for i in range(3):
-    rfl = RFL2(500000)
+# Loop 3 times to create and evaluate RFL2 instances
+for _ in range(3):
+    # Create a new instance of RFL2 with a parameter of 500000
+    rfl = RFL2(5000)
+    # Run the simulation for the current instance
     rfl.run_sim()
+    # Append the evaluation results of the current instance to the results list
     el.append(rfl.run_eval(1000))
-    # ac_num = 0 
-    # for v in rfl.a1.q.values():
-    #     if v != 
 
 print(f"Report: {sum([e[0] for e in el])/30:.2f}% : {sum([e[1] for e in el])/30:.2f}% : {sum([e[2] for e in el])/30:.2f}%")
 

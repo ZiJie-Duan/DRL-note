@@ -41,10 +41,12 @@ class RFL2:
                 if s != sd:
                     if v:
                         self.game.pprint(s,a,r,sd,end)
+                        print(len(self.a1.q.keys()))
                         print("a1:", s)
                     self.a1.eval(s,a,r, sd)
                     s = sd
                     break
+                raise KeyError("s")        
                 self.a1.eval(s,a,r, sd)
 
             if end:
@@ -61,6 +63,8 @@ class RFL2:
                     self.a1.eval(self.inv_state(s),a,r, sd)
                     s = sd
                     break
+                
+                raise KeyError("s")        
                 self.a1.eval(self.inv_state(s),a,r, sd)
 
             if end:
@@ -69,6 +73,13 @@ class RFL2:
 
     def run_sim(self):
         for i in range(self.round):
+            if i < 0.1 * self.round:
+                self.a1.e_greedy_v = 0.7
+            elif i < 0.5 * self.round:
+                self.a1.e_greedy_v = 0.3
+            else:
+                self.a1.e_greedy_v = 0.1
+
             if i % 2000 == 0:
                 print(i)
             if i > self.round - 100:
@@ -145,7 +156,7 @@ el = []
 # Loop 3 times to create and evaluate RFL2 instances
 for _ in range(1):
     # Create a new instance of RFL2 with a parameter of 500000
-    rfl = RFL2(500000)
+    rfl = RFL2(200000)
     # Run the simulation for the current instance
     rfl.run_sim()
     # Append the evaluation results of the current instance to the results list

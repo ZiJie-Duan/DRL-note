@@ -6,7 +6,7 @@ class Agent2Q:
 
     def __init__(self):
         self.e_greedy_v = 0.1
-        self.q = defaultdict(int)
+        self.q = defaultdict(float)
         self.action_space = [x for x in range(1,10)]
 
     def valid_action_sapce(self, state):
@@ -16,6 +16,7 @@ class Agent2Q:
             if v == "0":
                 valid_action_space_index.append(i)
                 valid_action_num += 1
+
         return [self.action_space[i] for i in valid_action_space_index]
     
     
@@ -40,7 +41,7 @@ class Agent2Q:
     def run(self, state):
 
         if random.random() < self.e_greedy_v:
-            return random.choice(self.action_space)
+            return random.choice(self.valid_action_sapce(state))
         
         max_a, _ = self.get_max_from_q(state)
         return max_a
@@ -63,7 +64,7 @@ class Agent2Q:
         map = [7,4,1,8,5,2,9,6,3]
         return map[action - 1]
  
-    def eval(self, state, action, r, next_state):
+    def eval(self, state, action, r, next_state): 
 
         s = state
         a = action
@@ -78,7 +79,7 @@ class Agent2Q:
             _, next_max_q = self.get_max_from_q(ns)
 
             if next_max_q == None:
-                return
+                next_max_q = 0
 
             self.q[(s, a)] += 0.8 * ((float(r) + 0.9 * next_max_q)-self.q[(s, a)])
 
